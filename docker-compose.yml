@@ -158,61 +158,61 @@ services:
       SHOULD_LOG_TO_FILE: false
       LOG_FILE: "/dev/null"
 
-  control-center:
-    image: confluentinc/cp-enterprise-control-center-next-gen:2.5.0
-    hostname: control-center
-    container_name: control-center
-    depends_on:
-      - broker
-      - schema-registry
-      - connect
-      - ksqldb-server
-      - prometheus
-      - alertmanager
-    ports:
-      - "9021:9021"
-    volumes:
-      - ./vol/config:/mnt/config
-    environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
-      CONTROL_CENTER_CONNECT_CONNECT-DEFAULT_CLUSTER: 'connect:8083'
-      CONTROL_CENTER_CONNECT_HEALTHCHECK_ENDPOINT: '/connectors'
-      CONTROL_CENTER_KSQL_KSQLDB1_URL: "http://ksqldb-server:8088"
-      CONTROL_CENTER_KSQL_KSQLDB1_ADVERTISED_URL: "http://localhost:8088"
-      CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
-      CONTROL_CENTER_SCHEMA_REGISTRY_ENABLE: "true"
-      CONTROL_CENTER_CONNECT_REPLICATOR_CLUSTER: http://replicator:8083
-      CONTROL_CENTER_REPLICATION_FACTOR: 1
-      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
-      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
-      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
-      CONTROL_CENTER_PROMETHEUS_ENABLE: true
-      CONTROL_CENTER_PROMETHEUS_URL: http://prometheus:9090
-      CONTROL_CENTER_PROMETHEUS_RULES_FILE: /mnt/config/trigger_rules-generated.yml
-      CONTROL_CENTER_ALERTMANAGER_URL: http://alertmanager:9093
-      CONTROL_CENTER_ALERTMANAGER_CONFIG_FILE: /mnt/config/alertmanager-generated.yml
-      PORT: 9021
+  # control-center:
+  #   image: confluentinc/cp-enterprise-control-center-next-gen:2.5.0
+  #   hostname: control-center
+  #   container_name: control-center
+  #   depends_on:
+  #     - broker
+  #     - schema-registry
+  #     - connect
+  #     - ksqldb-server
+  #     - prometheus
+  #     - alertmanager
+  #   ports:
+  #     - "9021:9021"
+  #   volumes:
+  #     - ./vol/config:/mnt/config
+  #   environment:
+  #     CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
+  #     CONTROL_CENTER_CONNECT_CONNECT-DEFAULT_CLUSTER: 'connect:8083'
+  #     CONTROL_CENTER_CONNECT_HEALTHCHECK_ENDPOINT: '/connectors'
+  #     CONTROL_CENTER_KSQL_KSQLDB1_URL: "http://ksqldb-server:8088"
+  #     CONTROL_CENTER_KSQL_KSQLDB1_ADVERTISED_URL: "http://localhost:8088"
+  #     CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+  #     CONTROL_CENTER_SCHEMA_REGISTRY_ENABLE: "true"
+  #     CONTROL_CENTER_CONNECT_REPLICATOR_CLUSTER: http://replicator:8083
+  #     CONTROL_CENTER_REPLICATION_FACTOR: 1
+  #     CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+  #     CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+  #     CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+  #     CONTROL_CENTER_PROMETHEUS_ENABLE: true
+  #     CONTROL_CENTER_PROMETHEUS_URL: http://prometheus:9090
+  #     CONTROL_CENTER_PROMETHEUS_RULES_FILE: /mnt/config/trigger_rules-generated.yml
+  #     CONTROL_CENTER_ALERTMANAGER_URL: http://alertmanager:9093
+  #     CONTROL_CENTER_ALERTMANAGER_CONFIG_FILE: /mnt/config/alertmanager-generated.yml
+  #     PORT: 9021
 
-  ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:8.4.0
-    hostname: ksqldb-server
-    container_name: ksqldb-server
-    depends_on:
-      - broker
-      - connect
-    ports:
-      - "8088:8088"
-    environment:
-      KSQL_CONFIG_DIR: "/etc/ksql"
-      KSQL_BOOTSTRAP_SERVERS: "broker:29092"
-      KSQL_HOST_NAME: ksqldb-server
-      KSQL_LISTENERS: "http://0.0.0.0:8088"
-      KSQL_CACHE_MAX_BYTES_BUFFERING: 0
-      KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
-      KSQL_KSQL_CONNECT_URL: "http://connect:8083"
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
-      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+  # ksqldb-server:
+  #   image: confluentinc/cp-ksqldb-server:8.4.0
+  #   hostname: ksqldb-server
+  #   container_name: ksqldb-server
+  #   depends_on:
+  #     - broker
+  #     - connect
+  #   ports:
+  #     - "8088:8088"
+  #   environment:
+  #     KSQL_CONFIG_DIR: "/etc/ksql"
+  #     KSQL_BOOTSTRAP_SERVERS: "broker:29092"
+  #     KSQL_HOST_NAME: ksqldb-server
+  #     KSQL_LISTENERS: "http://0.0.0.0:8088"
+  #     KSQL_CACHE_MAX_BYTES_BUFFERING: 0
+  #     KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+  #     KSQL_KSQL_CONNECT_URL: "http://connect:8083"
+  #     KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
+  #     KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
+  #     KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
 
   rest-proxy:
     image: confluentinc/cp-kafka-rest:8.4.0
@@ -229,38 +229,38 @@ services:
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
 
-  flink-sql-client:
-    image: cnfldemos/flink-sql-client-kafka:1.19.1-scala_2.12-java17
-    depends_on:
-      - flink-jobmanager
-    hostname: flink-sql-client
-    container_name: flink-sql-client
-    environment:
-      FLINK_JOBMANAGER_HOST: flink-jobmanager
+  # flink-sql-client:
+  #   image: cnfldemos/flink-sql-client-kafka:1.19.1-scala_2.12-java17
+  #   depends_on:
+  #     - flink-jobmanager
+  #   hostname: flink-sql-client
+  #   container_name: flink-sql-client
+  #   environment:
+  #     FLINK_JOBMANAGER_HOST: flink-jobmanager
 
-  flink-jobmanager:
-    image: cnfldemos/flink-kafka:1.19.1-scala_2.12-java17
-    hostname: flink-jobmanager
-    container_name: flink-jobmanager
-    ports:
-    - 9081:9081
-    command: jobmanager
-    environment:
-    - |
-      FLINK_PROPERTIES=
-      jobmanager.rpc.address: flink-jobmanager
-      rest.bind-port: 9081
+  # flink-jobmanager:
+  #   image: cnfldemos/flink-kafka:1.19.1-scala_2.12-java17
+  #   hostname: flink-jobmanager
+  #   container_name: flink-jobmanager
+  #   ports:
+  #   - 9081:9081
+  #   command: jobmanager
+  #   environment:
+  #   - |
+  #     FLINK_PROPERTIES=
+  #     jobmanager.rpc.address: flink-jobmanager
+  #     rest.bind-port: 9081
 
-  flink-taskmanager:
-    image: cnfldemos/flink-kafka:1.19.1-scala_2.12-java17
-    hostname: flink-taskmanager
-    container_name: flink-taskmanager
-    depends_on:
-    - flink-jobmanager
-    command: taskmanager
-    scale: 1
-    environment:
-    - |
-      FLINK_PROPERTIES=
-      jobmanager.rpc.address: flink-jobmanager
-      taskmanager.numberOfTaskSlots: 10
+  # flink-taskmanager:
+  #   image: cnfldemos/flink-kafka:1.19.1-scala_2.12-java17
+  #   hostname: flink-taskmanager
+  #   container_name: flink-taskmanager
+  #   depends_on:
+  #   - flink-jobmanager
+  #   command: taskmanager
+  #   scale: 1
+  #   environment:
+  #   - |
+  #     FLINK_PROPERTIES=
+  #     jobmanager.rpc.address: flink-jobmanager
+  #     taskmanager.numberOfTaskSlots: 10
